@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sheera Mae Magnaye — UI/UX Designer</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5f0e8;
+      --ink: #1a1612;
+      --rust: #c0522a;
+      --warm-mid: #7a6652;
+      --pale: #ede8df;
+      --accent-line: #d4c8b5;
+      --paper: #faf7f2;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── LAYOUT ── */
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 3rem;
+      padding: 5rem 0 3rem;
+      border-bottom: 1.5px solid var(--accent-line);
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .header-left {}
+
+    .eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--rust);
+      font-weight: 500;
+      margin-bottom: 0.8rem;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 1.0;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--rust);
+    }
+
+    .tagline {
+      margin-top: 1.2rem;
+      font-size: 1rem;
+      color: var(--warm-mid);
+      max-width: 520px;
+      font-weight: 300;
+    }
+
+    .contact-block {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .contact-block a,
+    .contact-block span {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--warm-mid);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+
+    .contact-block a:hover { color: var(--rust); }
+
+    /* ── TWO-COLUMN BODY ── */
+    .body-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 0 5rem;
+      padding-top: 3.5rem;
+    }
+
+    /* ── SECTION ── */
+    section {
+      margin-bottom: 3.5rem;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    section:nth-child(2) { animation-delay: 0.1s; }
+    section:nth-child(3) { animation-delay: 0.2s; }
+    section:nth-child(4) { animation-delay: 0.3s; }
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--rust);
+      font-weight: 500;
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--accent-line);
+    }
+
+    /* ── EXPERIENCE / EDUCATION ENTRIES ── */
+    .entry {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 1.6rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .entry-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--rust);
+      margin-top: 0.45rem;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .entry-dot::before {
+      content: '';
+      position: absolute;
+      top: 7px;
+      left: 3px;
+      width: 1px;
+      height: 999px;
+      background: var(--accent-line);
+    }
+
+    .entry:last-child .entry-dot::before { display: none; }
+
+    .entry-content {}
+
+    .entry-org {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.05rem;
+      color: var(--ink);
+    }
+
+    .entry-role {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--rust);
+      margin-top: 0.1rem;
+      letter-spacing: 0.03em;
+    }
+
+    .entry-meta {
+      font-size: 0.75rem;
+      color: var(--warm-mid);
+      margin-top: 0.15rem;
+    }
+
+    .entry-desc {
+      font-size: 0.88rem;
+      color: #5a4e42;
+      margin-top: 0.5rem;
+      line-height: 1.65;
+    }
+
+    /* ── SKILLS SIDEBAR ── */
+    .sidebar section { animation-delay: 0.25s; }
+
+    .skill-group {
+      margin-bottom: 1.6rem;
+    }
+
+    .skill-group-title {
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--warm-mid);
+      margin-bottom: 0.7rem;
+    }
+
+    .skill-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .pill {
+      background: var(--pale);
+      border: 1px solid var(--accent-line);
+      border-radius: 2px;
+      font-size: 0.78rem;
+      padding: 0.28rem 0.75rem;
+      color: var(--ink);
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      cursor: default;
+    }
+
+    .pill:hover {
+      background: var(--rust);
+      border-color: var(--rust);
+      color: #fff;
+    }
+
+    /* ── CERTS ── */
+    .cert-item {
+      padding: 0.9rem 1rem;
+      background: var(--paper);
+      border-left: 2.5px solid var(--rust);
+      margin-bottom: 0.75rem;
+      transition: transform 0.2s;
+    }
+
+    .cert-item:hover { transform: translateX(4px); }
+
+    .cert-title {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    .cert-issuer {
+      font-size: 0.73rem;
+      color: var(--warm-mid);
+      margin-top: 0.2rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── OBJECTIVE ── */
+    .objective-text {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--ink);
+      line-height: 1.75;
+      border-left: 3px solid var(--rust);
+      padding-left: 1.4rem;
+    }
+
+    /* ── FOOTER STRIP ── */
+    footer {
+      border-top: 1.5px solid var(--accent-line);
+      padding-top: 1.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+
+    footer span {
+      font-size: 0.75rem;
+      color: var(--warm-mid);
+      letter-spacing: 0.06em;
+    }
+
+    .footer-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      header {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .contact-block { text-align: left; }
+      .body-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <p class="eyebrow">Portfolio · Resume · 2025</p>
+      <h1>Sheera <em>Mae</em><br>Magnaye</h1>
+      <p class="tagline">
+        UI/UX Designer combining Software Engineering, creative design, and
+        business strategy to craft intuitive, market-ready digital experiences.
+      </p>
+    </div>
+    <div class="contact-block">
+      <a href="mailto:magnaye.sheeramae@gmail.com">magnaye.sheeramae@gmail.com</a>
+      <a href="tel:+639772460566">+63 977 246 0566</a>
+      <span>Antipolo City, Rizal 1870</span>
+      <span>0355 Maagay 1, Inarawan</span>
+    </div>
+  </header>
+
+  <!-- BODY GRID -->
+  <div class="body-grid">
+
+    <!-- MAIN COLUMN -->
+    <main>
+
+      <!-- OBJECTIVE -->
+      <section>
+        <p class="section-label">About</p>
+        <p class="objective-text">
+          "I leverage my technical background and entrepreneurial experience to create
+          intuitive, market-ready digital experiences and solve complex problems
+          with a user-first mindset."
+        </p>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section>
+        <p class="section-label">Experience</p>
+
+        <div class="entry">
+          <div class="entry-dot"></div>
+          <div class="entry-content">
+            <div class="entry-org">Fatima Antipolo Otaku Society (FAOS)</div>
+            <div class="entry-role">SHS Representative / P.R.O</div>
+            <div class="entry-meta">Antipolo City, Rizal &nbsp;·&nbsp; July 2021 – 2022</div>
+            <p class="entry-desc">
+              Managed public relations, marketing, and grade-level representation
+              to drive participation and streamline communication within the
+              organization.
+            </p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-dot"></div>
+          <div class="entry-content">
+            <div class="entry-org">ALPHA Tech Fest Capstone Symposium</div>
+            <div class="entry-role">Capstone Presenter</div>
+            <div class="entry-meta">STI College Ortigas-Cainta &nbsp;·&nbsp; 2025</div>
+            <p class="entry-desc">
+              Received a Certificate of Recognition for developing
+              <em>A Web-Based WIRE System for STI College</em> — a real-time
+              enrollment and inquiry tracking platform.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- EDUCATION -->
+      <section>
+        <p class="section-label">Education</p>
+
+        <div class="entry">
+          <div class="entry-dot"></div>
+          <div class="entry-content">
+            <div class="entry-org">STI College</div>
+            <div class="entry-role">Bachelor of Science in Computer Science</div>
+            <div class="entry-meta">Cainta, Rizal &nbsp;·&nbsp; 2022 – Present</div>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-dot"></div>
+          <div class="entry-content">
+            <div class="entry-org">Our Lady of Fatima University</div>
+            <div class="entry-role">Senior High School — STEM</div>
+            <div class="entry-meta">Antipolo City, Rizal &nbsp;·&nbsp; 2020 – 2022</div>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-dot"></div>
+          <div class="entry-content">
+            <div class="entry-org">Don Antonio de Zuzuarregui, Sr. Memorial Academy</div>
+            <div class="entry-role">Junior High School</div>
+            <div class="entry-meta">Antipolo City, Rizal &nbsp;·&nbsp; 2016 – 2020</div>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-dot"></div>
+          <div class="entry-content">
+            <div class="entry-org">Holy Child School of Antipolo</div>
+            <div class="entry-role">Primary</div>
+            <div class="entry-meta">Antipolo City, Rizal &nbsp;·&nbsp; 2012 – 2016</div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <!-- SKILLS -->
+      <section>
+        <p class="section-label">Skills</p>
+
+        <div class="skill-group">
+          <p class="skill-group-title">Design</p>
+          <div class="skill-pills">
+            <span class="pill">UI/UX Design</span>
+            <span class="pill">Graphic Design</span>
+            <span class="pill">Creativity</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <p class="skill-group-title">Technical</p>
+          <div class="skill-pills">
+            <span class="pill">Python</span>
+            <span class="pill">Java</span>
+            <span class="pill">JavaScript</span>
+            <span class="pill">HTML</span>
+            <span class="pill">CSS</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <p class="skill-group-title">Soft Skills</p>
+          <div class="skill-pills">
+            <span class="pill">Adaptability</span>
+            <span class="pill">Project Management</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <p class="skill-group-title">Business</p>
+          <div class="skill-pills">
+            <span class="pill">E-Commerce</span>
+            <span class="pill">Market Analysis</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- CERTIFICATES -->
+      <section>
+        <p class="section-label">Certificates</p>
+
+        <div class="cert-item">
+          <p class="cert-title">JavaScript Essentials 1</p>
+          <p class="cert-issuer">Cisco Networking Academy &nbsp;·&nbsp; Aug 24, 2025</p>
+        </div>
+
+        <div class="cert-item">
+          <p class="cert-title">JavaScript Essentials 2</p>
+          <p class="cert-issuer">Cisco Networking Academy &nbsp;·&nbsp; Aug 26, 2025</p>
+        </div>
+
+        <div class="cert-item">
+          <p class="cert-title">Java Fundamentals</p>
+          <p class="cert-issuer">Oracle Academy &nbsp;·&nbsp; Jun 23, 2023</p>
+        </div>
+
+        <div class="cert-item">
+          <p class="cert-title">Web-Based WIRE System Recognition</p>
+          <p class="cert-issuer">ALPHA Tech Fest Capstone Symposium &nbsp;·&nbsp; 2025</p>
+        </div>
+      </section>
+
+    </aside>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-name">Sheera Mae Magnaye</span>
+    <span>UI/UX Designer &nbsp;·&nbsp; Antipolo City, PH &nbsp;·&nbsp; 2025</span>
+  </footer>
+
+</div>
+</body>
+</html>
